@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
-
-import { createUser } from '../utils/API';
+// Import hooks for mutations
+import { useMutation } from '@apollo/react-hooks';
+import { ADD_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
 
 const SignupForm = () => {
@@ -9,6 +10,10 @@ const SignupForm = () => {
   const [userFormData, setUserFormData] = useState({ username: '', email: '', password: '' });
   // set state for form validation
   const [validated] = useState(false);
+
+  //Use mutation hook to pass the ADD_USER mutation to talk to gql
+  // This will allow us to execute the addUser mutation from the server
+  const [addUser, { error }] = useMutation(ADD_USER);
   // set state for alert
   const [showAlert, setShowAlert] = useState(false);
 
@@ -26,21 +31,23 @@ const SignupForm = () => {
       event.preventDefault();
       event.stopPropagation();
     }
-
+    if (error) {
+      throw new Error('something went wrong!');
+    }
+    // use try/catch instead of promises to handle errors
     try {
-      const response = await createUser(userFormData);
+      const {response} = await addUser(userFormData{
+        variables: { ...userFormData }
+      });
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
-
-      const { token, user } = await response.json();
-      console.log(user);
-      Auth.login(token);
+      Auth.login(response.addUser.token);
+      console.log(response);
     } catch (err) {
       console.error(err);
       setShowAlert(true);
     }
+      
+    // clear form values
 
     setUserFormData({
       username: '',
