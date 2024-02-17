@@ -8,6 +8,7 @@ module.exports = {
   // function for our authenticated routes
   signToken: function ({ username, email, _id }) {
     const payload = { username, email, _id };
+    //["Bearer", "<tokenvalue>"]
 
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   },
