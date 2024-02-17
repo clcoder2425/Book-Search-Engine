@@ -1,21 +1,14 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
-// Import hooks for mutations
 import { useMutation } from '@apollo/react-hooks';
 import { ADD_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
 
 const SignupForm = () => {
-  // set initial form state
   const [userFormData, setUserFormData] = useState({ username: '', email: '', password: '' });
-  // set state for form validation
-  const [validated] = useState(false);
-
-  //Use mutation hook to pass the ADD_USER mutation to talk to gql
-  // This will allow us to execute the addUser mutation from the server
-  const [addUser, { error }] = useMutation(ADD_USER);
-  // set state for alert
+  const [validated, setValidated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const [addUser, { error }] = useMutation(ADD_USER);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -24,43 +17,28 @@ const SignupForm = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-
-    // check if form has everything (as per react-bootstrap docs)
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      event.preventDefault();
       event.stopPropagation();
+      setValidated(true); // Set validated to true to trigger validation feedback
+      return;
     }
-    if (error) {
-      throw new Error('something went wrong!');
-    }
-    // use try/catch instead of promises to handle errors
+
     try {
-      const {response} = await addUser(userFormData{
+      const { data } = await addUser({
         variables: { ...userFormData }
       });
-
-      Auth.login(response.addUser.token);
-      console.log(response);
+      Auth.login(data.addUser.token);
+      setUserFormData({ username: '', email: '', password: '' });
     } catch (err) {
       console.error(err);
       setShowAlert(true);
     }
-      
-    // clear form values
-
-    setUserFormData({
-      username: '',
-      email: '',
-      password: '',
-    });
   };
 
   return (
     <>
-      {/* This is needed for the validation functionality above */}
       <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
-        {/* show alert if server response is bad */}
         <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
           Something went wrong with your signup!
         </Alert>
@@ -106,7 +84,8 @@ const SignupForm = () => {
         <Button
           disabled={!(userFormData.username && userFormData.email && userFormData.password)}
           type='submit'
-          variant='success'>
+          variant='success'
+        >
           Submit
         </Button>
       </Form>
