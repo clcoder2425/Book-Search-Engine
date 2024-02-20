@@ -1,7 +1,7 @@
 // Specify query and mutation funtions to work the mongoose models
-const { AuthenticationError } = require('apollo-server-express');
-const { User } = require('./models');
-const { signToken } = require('./utils/auth');
+
+const { User } = require('../models');
+const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
   Query: {
