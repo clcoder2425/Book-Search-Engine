@@ -9,12 +9,12 @@ import {
 } from 'react-bootstrap';
 
 //import hooks for mutations
-import { useMutation } from '@apollo/react-hooks';
 import { SAVE_BOOK } from '../utils/mutations';
+import { useMutation } from '@apollo/client';
 import Auth from '../utils/auth';
 import { searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
-
+import { GET_ME } from '../utils/queries';
 const SearchBooks = () => {
   // create state for holding returned google api data
   const [searchedBooks, setSearchedBooks] = useState([]);
@@ -64,7 +64,13 @@ const SearchBooks = () => {
   };
 
   // addUser is a mutation function that we'll use later on when we create a user account
-  const [saveBook, {error}] = useMutation(SAVE_BOOK);
+  const [saveBook, {error}] = useMutation(SAVE_BOOK, {
+    refetchQueries: [
+      
+      GET_ME,
+      'me'
+    ]
+  });
 
   // create function to handle saving a book to our database
   const handleSaveBook = async (bookId) => {
@@ -82,11 +88,8 @@ const SearchBooks = () => {
       const {response} = await saveBook({
         variables: {bookInput:bookToSave}
       });
-      console.log(response);
-
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
+     
+     
 
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);

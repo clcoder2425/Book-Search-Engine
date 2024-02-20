@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Card, Button, Row, Col } from 'react-bootstrap';
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
 import { REMOVE_BOOK } from '../utils/mutations';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
-  const { loading, data, refetch } = useQuery(GET_ME);
-  const [removeBook] = useMutation(REMOVE_BOOK);
-  const [userData, setUserData] = useState({ savedBooks: [] });
-
-  useEffect(() => {
-    if (data) {
-      setUserData(data.me);
-    }
-  }, [data]);
-
+  const { loading, data } = useQuery(GET_ME);
+  const [removeBook] = useMutation(REMOVE_BOOK, {
+    refetchQueries: [
+      
+      GET_ME,
+      'me'
+    ]
+  }); 
+ 
+ const userData= data?.me|| {};
+console.log(userData);
   const handleDeleteBook = async (bookId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
@@ -34,7 +35,7 @@ const SavedBooks = () => {
       }
 
       // Refetch the data after removing the book
-      refetch();
+      // refetch();
 
       // Remove book's id from localStorage upon success
       removeBookId(bookId);
