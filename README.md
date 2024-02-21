@@ -42,12 +42,29 @@ THEN I am logged out of the site and presented with a menu with the options Sear
 ## Table of Contents 
 - [Description](#Description)
 - [User-story&Acceptance-criteria](#User-Story&Acceptance-Criteria)
+- [Refactor Process](#Refactor-Process)
+- [Web-Page-Preview](#Web-Page-Preview)
 - [Installation](#Installation)
 - [Usage](#Usage)
 - [Skill-Improved](#Skill-Improved)
 - [Technologies](#Technologies)
 - [Authors](#Authors)
 - [Credits](#credits)
+
+## Refactor Process
+To fulfill the Challenge, you’ll need to do the following:
+
+1. Set up an Apollo Server to use GraphQL queries and mutations to fetch and modify data, replacing the existing RESTful API.
+
+2. Modify the existing authentication middleware so that it works in the context of a GraphQL API.
+
+3. Create an Apollo Provider so that requests can communicate with an Apollo Server.
+
+4. Deploy the application to Render.
+
+## Web Page Preview
+![Web-Preview](./client/src/assets/booksearchhome.JPG)
+![Saved-Books](./client/src/assets/booksearch.JPG)
 
 ## Installation
 - Install dependencies: `npm install`
@@ -57,34 +74,36 @@ THEN I am logged out of the site and presented with a menu with the options Sear
 
 ## Usage
 
-
-
-Webpage use example:
-
-
-
+Render deployed link:https://book-search-engine-mfrg.onrender.com
 
     
 ## Skills Improved
 - Javascript
-- Designing models with sequelize
+- Node.js
 - Express.js
 - Using .env
-- End Point Testing
+- Mongodb
+- Graphql
+- TypeDefs and resolver
+- React
 
 ## Technologies
  - [JavaScript](#JavaScript)
- -
+ - [apollo/client](#https://www.npmjs.com/package/@apollo/client)
  - [Express.js](#https://www.npmjs.com/package/express)
  - [dotenv](#https://www.npmjs.com/package/dotenv)
- -
+ - [Graphql](#https://www.npmjs.com/package/graphql)
+ - [Mongodb Driver](#https://www.npmjs.com/package/mongodb)
  - [Nodemon](#https://www.npmjs.com/package/nodemon?activeTab=versions)
+
 ## License
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Authors
   Carmen Jimenez
 
-  Githublink:  
+  Githublink:  https://github.com/clcoder2425/Book-Search-Engine.git
 
 ## Credits
+- Calenly tutoring team
+- Render deployment guide: https://coding-boot-camp.github.io/full-stack/render/render-deployment-guide

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+// import React, { useState, useEffect } from 'react';
 import { Container, Card, Button, Row, Col } from 'react-bootstrap';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
@@ -35,7 +35,7 @@ console.log(userData);
       }
 
       // Refetch the data after removing the book
-      // refetch();
+      refetch();
 
       // Remove book's id from localStorage upon success
       removeBookId(bookId);
