@@ -22,6 +22,7 @@ console.log(userData);
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
     if (!token) {
+      console.log('No token found!');
       return false;
     }
 
@@ -50,7 +51,7 @@ console.log(userData);
 
   return (
     <>
-      <div fluid className="text-light bg-dark p-5">
+      <div  className="text-light bg-dark p-5">
         <Container>
           <h1>Viewing saved books!</h1>
         </Container>
